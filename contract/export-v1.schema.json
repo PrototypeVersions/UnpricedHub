@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PrototypeVersions/UnpricedHub/contract/export-v1.schema.json",
+  "title": "Unpriced lab export, version 1",
+  "type": "object",
+  "required": ["schema", "lab", "forecastId", "decisionSession", "informationCutoff", "issuedAt",
+               "entry", "exit", "task", "universe", "models", "forecasts", "abstained", "provenance"],
+  "properties": {
+    "schema": {"const": "unpriced-export/1"},
+    "lab": {
+      "type": "object",
+      "required": ["id", "name", "repo", "experiment"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "name": {"type": "string"},
+        "repo": {"type": "string"},
+        "experiment": {"type": "string"},
+        "codeCommit": {"type": ["string", "null"]}
+      }
+    },
+    "forecastId": {"type": "string"},
+    "decisionSession": {"type": "string", "format": "date"},
+    "informationCutoff": {"type": "string", "format": "date-time"},
+    "issuedAt": {"type": "string", "format": "date-time"},
+    "entry": {"$ref": "#/$defs/endpoint"},
+    "exit": {"$ref": "#/$defs/endpoint"},
+    "task": {
+      "type": "object",
+      "required": ["id", "description", "target", "forecastType"],
+      "properties": {
+        "id": {"type": "string"},
+        "description": {"type": "string"},
+        "target": {
+          "type": "object",
+          "required": ["quantity", "entryPrice", "exitPrice", "horizonSessions", "relativeTo"],
+          "properties": {
+            "quantity": {"enum": ["total-return", "realized-variance", "drawdown"]},
+            "entryPrice": {"enum": ["open", "close"]},
+            "exitPrice": {"enum": ["open", "close"]},
+            "horizonSessions": {"type": "integer", "minimum": 1},
+            "relativeTo": {"type": "string"}
+          }
+        },
+        "forecastType": {"enum": ["rank-score", "event-probability", "variance"]},
+        "event": {
+          "type": ["object", "null"],
+          "properties": {"operator": {"enum": [">", ">=", "<", "<="]}, "threshold": {"type": "number"}}
+        }
+      }
+    },
+    "universe": {
+      "type": "object",
+      "required": ["definition", "size"],
+      "properties": {"definition": {"type": "string"}, "size": {"type": "integer", "minimum": 1}}
+    },
+    "models": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "role"],
+        "properties": {
+          "id": {"type": "string"},
+          "role": {"enum": ["champion", "challenger", "baseline"]},
+          "artifactSha256": {"type": ["string", "null"]},
+          "trainedThrough": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "forecasts": {
+      "type": "object",
+      "required": ["assets", "values"],
+      "properties": {
+        "assets": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "values": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": ["number", "null"]}}}
+      }
+    },
+    "abstained": {
+      "type": "array",
+      "items": {"type": "object", "required": ["asset", "reason"],
+                "properties": {"asset": {"type": "string"}, "reason": {"type": "string"}}}
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["snapshotPath", "snapshotSha256"],
+      "properties": {
+        "snapshotPath": {"type": "string"},
+        "snapshotSha256": {"type": "string"},
+        "inputFingerprint": {}
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "required": ["session", "price"],
+      "properties": {"session": {"type": "string", "format": "date"}, "price": {"enum": ["open", "close"]}}
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "labs": [
+    {
+      "id": "stock-lab",
+      "name": "Unpriced Stock Lab",
+      "repo": "PrototypeVersions/UnpricedX",
+      "site": "https://prototypeversions.github.io/UnpricedX/",
+      "question": "Which of about a thousand US stocks will do better than the others over the next five sessions?",
+      "export": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json",
+      "status": "active"
+    },
+    {
+      "id": "risk-lab",
+      "name": "Unpriced Risk Lab",
+      "repo": "PrototypeVersions/UnpricedZ",
+      "site": "https://prototypeversions.github.io/UnpricedZ/",
+      "question": "How risky will the market and its sectors be, and does the macro backdrop help tell?",
+      "export": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest.json",
+      "status": "awaiting-export"
+    }
+  ]
+}

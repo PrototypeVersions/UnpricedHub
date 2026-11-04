@@ -1,0 +1,64 @@
+name: Hub
+
+# Morning: collect every lab's latest export before the 09:30 ET open (on-time receipts).
+# Evening: collect again (labs that publish after the close), score matured forecasts, publish.
+on:
+  schedule:
+    - cron: '45 8 * * 1-5'
+      timezone: 'America/New_York'
+    - cron: '10 9 * * 1-5'
+      timezone: 'America/New_York'
+    - cron: '40 20 * * 1-5'
+      timezone: 'America/New_York'
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'collect | score | site | all'
+        default: all
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: hub-records
+  cancel-in-progress: false
+
+jobs:
+  hub:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Tests
+        run: python -m pytest -q tests
+      - name: Run
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then CMD="${{ inputs.command }}";
+          elif [ "${{ github.event.schedule }}" = "40 20 * * 1-5" ]; then CMD=all; else CMD=collect; fi
+          python -m hub "$CMD"
+      - name: Save records
+        run: |
+          git config user.name "unpriced-hub-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add records site/data
+          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+          git commit -q -m "hub: $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do git push -q && exit 0; git pull -q --rebase; done; exit 1
+      - name: Configure Pages
+        id: pages
+        continue-on-error: true
+        uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outcome == 'success'
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4
+        if: steps.pages.outcome == 'success'
+        continue-on-error: true

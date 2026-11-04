@@ -1,0 +1,76 @@
+{
+ "updatedAt": "2026-11-03T22:04:23-05:00",
+ "labs": [
+  {
+   "id": "stock-lab",
+   "name": "Unpriced Stock Lab",
+   "repo": "PrototypeVersions/UnpricedX",
+   "site": "https://prototypeversions.github.io/UnpricedX/",
+   "question": "Which of about a thousand US stocks will do better than the others over the next five sessions?",
+   "status": "active",
+   "exports": [
+    "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json"
+   ],
+   "receipts": {
+    "live": 1,
+    "late": 0,
+    "invalid": 0,
+    "conflict": 0,
+    "unavailable": 0
+   },
+   "recent": [
+    {
+     "lab": "stock-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json",
+     "receivedAt": "2026-11-03T22:04:23-05:00",
+     "sha256": "380dff38bc62e7f916d1b67f8927e743b5d22c27fec76dd5cf5e7d97246c1dab",
+     "forecastId": "stock-lab/2026-11-03/stock-rank-5d-open-open",
+     "storedAt": "records/exports/stock-lab/stock-lab_2026-11-03_stock-rank-5d-open-open.380dff38bc62e7f9.json",
+     "status": "live",
+     "entryOpen": "2026-11-04T09:30:00-05:00",
+     "issuedAt": "2026-11-03T21:56:18-05:00",
+     "decisionSession": "2026-11-03",
+     "entrySession": "2026-11-04",
+     "exitSession": "2026-11-11",
+     "taskId": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "models": [
+      "ens_all-c3743f03",
+      "gbm_all-d90c9d52",
+      "gbm_price-271869db",
+      "gbm_all_h21-h5-d90c9d52"
+     ],
+     "assets": 1000
+    }
+   ],
+   "models": []
+  },
+  {
+   "id": "risk-lab",
+   "name": "Unpriced Risk Lab",
+   "repo": "PrototypeVersions/UnpricedZ",
+   "site": "https://prototypeversions.github.io/UnpricedZ/",
+   "question": "How risky will the market and its sectors be, and does the macro backdrop help tell?",
+   "status": "awaiting-export",
+   "exports": [
+    "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-<task-id>.json"
+   ],
+   "note": "Replace <task-id> with the Risk Lab's real task ids once its exporter exists; one file per task.",
+   "receipts": {
+    "live": 0,
+    "late": 0,
+    "invalid": 0,
+    "conflict": 0,
+    "unavailable": 0
+   },
+   "recent": [],
+   "models": []
+  }
+ ],
+ "rules": [
+  "The Hub collects each lab's forecast before the market opens and keeps the exact bytes.",
+  "Forecasts it first sees after the open are marked late and never scored as live.",
+  "Each lab is scored with its own metric from the Hub's own price data.",
+  "Labs are compared head to head only on identical tasks. The Hub never picks or promotes a model."
+ ]
+}

@@ -6,8 +6,10 @@
       "repo": "PrototypeVersions/UnpricedX",
       "site": "https://prototypeversions.github.io/UnpricedX/",
       "question": "Which of about a thousand US stocks will do better than the others over the next five sessions?",
-      "export": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json",
-      "status": "active"
+      "status": "active",
+      "exports": [
+        "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json"
+      ]
     },
     {
       "id": "risk-lab",
@@ -15,8 +17,11 @@
       "repo": "PrototypeVersions/UnpricedZ",
       "site": "https://prototypeversions.github.io/UnpricedZ/",
       "question": "How risky will the market and its sectors be, and does the macro backdrop help tell?",
-      "export": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest.json",
-      "status": "awaiting-export"
+      "status": "awaiting-export",
+      "exports": [
+        "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-<task-id>.json"
+      ],
+      "note": "Replace <task-id> with the Risk Lab's real task ids once its exporter exists; one file per task."
     }
   ]
 }

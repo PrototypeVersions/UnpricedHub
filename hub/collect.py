@@ -27,11 +27,13 @@ def collect(fetch=None) -> list[dict]:
         if r.get("forecastId"):
             seen.setdefault(r["forecastId"], r)
     out = []
-    for lab in labs:
+    targets = [(lab, url) for lab in labs for url in (lab.get("exports") or [lab.get("export")])
+               if url and "<" not in url]          # placeholders are not fetched
+    for lab, url in targets:
         at = now()
-        row = {"lab": lab["id"], "url": lab["export"], "receivedAt": iso(at)}
+        row = {"lab": lab["id"], "url": url, "receivedAt": iso(at)}
         try:
-            resp = fetch(lab["export"])
+            resp = fetch(url)
             status = getattr(resp, "status_code", 200)
             if status != 200:
                 row.update(status="unavailable", httpStatus=status)

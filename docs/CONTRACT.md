@@ -6,9 +6,10 @@ and never chooses or promotes a model. Machine-readable schema: [`contract/expor
 
 ## Where
 
-Each lab serves its latest export at a stable public URL listed in [`labs.json`](../labs.json),
-for example `https://raw.githubusercontent.com/<owner>/<repo>/main/<path>/latest.json`.
-A lab may also keep dated copies; the Hub keeps its own copy of every byte it receives.
+Each lab serves its latest export for each task at a stable public URL listed under `exports` in
+[`labs.json`](../labs.json), e.g. `https://raw.githubusercontent.com/<owner>/<repo>/main/site/data/export/latest-<task-id>.json`.
+A lab with several tasks (say, variance and drawdown) publishes one file per task. A lab may also keep
+dated copies; the Hub keeps its own copy of every byte it receives.
 
 ## Fields
 

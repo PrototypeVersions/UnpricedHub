@@ -16,7 +16,7 @@ sys.path.insert(0, str(REPO))
 def hub_root(tmp_path, monkeypatch):
     shutil.copytree(REPO / "contract", tmp_path / "contract")
     (tmp_path / "labs.json").write_text(json.dumps({"labs": [
-        {"id": "stock-lab", "name": "Stock", "repo": "x", "site": "", "question": "q", "export": "https://example/x.json", "status": "active"}]}))
+        {"id": "stock-lab", "name": "Stock", "repo": "x", "site": "", "question": "q", "exports": ["https://example/x.json"], "status": "active"}]}))
     monkeypatch.setenv("HUB_ROOT", str(tmp_path))
     import importlib
     import hub.core, hub.collect, hub.score, hub.site_build

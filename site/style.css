@@ -138,3 +138,7 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
   .counts { gap: 14px !important; }
   .counts span { font-size: 14px; }
 }
+
+.grading { max-width: 76ch; margin: 14px 0; }
+.grading dt { font-weight: 700; margin-top: 14px; }
+.grading dd { margin: 4px 0 0; }

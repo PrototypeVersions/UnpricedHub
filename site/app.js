@@ -111,6 +111,19 @@
       <p class="lede">A receipt for every forecast. The Hub saves its own copy of each one before the market opens, so it can't be changed later, and grades it afterwards with its own price data.</p>
       <ul class="steps">${d.rules.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
       ${d.labs.map(labPanel).join("")}
+      <section class="lab">
+        <h2>How grading works</h2>
+        <p>The Hub grades a forecast once its five trading days are over, using prices it downloads itself. Only forecasts it received before the open are graded. Each kind of forecast gets the standard measure for that kind of question:</p>
+        <dl class="grading">
+          <dt>Which stocks will do better than the others</dt>
+          <dd>For every stock, the Hub works out the return from the entry open to the open five trading days later. It then measures how well the lab's ranking matched the actual order (a rank correlation). 1 would be a perfect order, 0 is no better than chance, and −1 is exactly backwards. Held over months, 0.02 to 0.05 would be very good.</dd>
+          <dt>How much prices will swing</dt>
+          <dd>The Hub measures the actual swing as the average squared daily move over the window (the first day from open to close, then close to close). It compares that with the forecast using QLIKE, a standard loss that is 0 for a perfect forecast and grows faster when risk is underestimated than when it is overestimated. Lower is better.</dd>
+          <dt>Chance of a fall of more than 3%</dt>
+          <dd>The Hub checks whether, at any close during the window, the price was more than 3% below the highest price reached so far, starting from the entry price (yes or no). It scores the forecast probability with the Brier score: the squared gap between the probability and what happened, averaged. 0 is perfect, and always saying 50% scores 0.25. Lower is better.</dd>
+        </dl>
+        <p class="small muted">The exact calculations are in <a href="${REPO}/blob/main/hub/score.py">hub/score.py</a>, and every receipt and grade is saved in the <a href="${REPO}/tree/main/records">records folder</a>.</p>
+      </section>
       <p class="small muted">Updated ${esc(when(d.updatedAt))}.</p>`;
   });
 })();

@@ -52,9 +52,9 @@ def build() -> dict:
                 })
         panels.append(panel)
     out = {"updatedAt": iso(now()), "labs": panels,
-           "rules": ["The Hub collects each lab's forecast before the market opens and keeps the exact bytes.",
-                     "Forecasts it first sees after the open are marked late and never scored as live.",
-                     "Each lab is scored with its own metric from the Hub's own price data.",
-                     "Labs are compared head to head only on identical tasks. The Hub never picks or promotes a model."]}
+           "rules": ["On time means the Hub had its copy before the market opened. Anything it first sees after the open is kept but marked late, and never counts.",
+                     "Each kind of forecast is graded by the measure that fits it, using prices the Hub downloads itself.",
+                     "The labs answer different questions, so they are never ranked against each other.",
+                     "The Hub only keeps score. It never chooses which models a lab uses."]}
     write_json(ROOT / "site" / "data" / "hub.json", out)
     return out

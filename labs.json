@@ -5,7 +5,7 @@
       "name": "Unpriced Stock Lab",
       "repo": "PrototypeVersions/UnpricedX",
       "site": "https://prototypeversions.github.io/UnpricedX/",
-      "question": "Which of about a thousand US stocks will do better than the others over the next five sessions?",
+      "question": "Which of about a thousand US stocks will do better than the others over the next five trading days?",
       "status": "active",
       "exports": [
         "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json"
@@ -16,12 +16,13 @@
       "name": "Unpriced Risk Lab",
       "repo": "PrototypeVersions/UnpricedZ",
       "site": "https://prototypeversions.github.io/UnpricedZ/",
-      "question": "How much will the market and each sector move over the next five sessions, and how likely is a fall of more than 3%?",
+      "question": "How much will the market and each sector move over the next five trading days, and how likely is a fall of more than 3%?",
       "status": "active",
       "exports": [
         "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-variance-5s-open-close.json",
         "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json"
-      ]
+      ],
+      "note": "Connected to the Hub at 10:41 am ET on Nov 5, 2026, after that day's open, so its first two forecasts arrived late."
     }
   ]
 }

@@ -142,3 +142,8 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 .counts span strong { font-size: 22px; display: block; letter-spacing: -0.02em; }
 .status-live { color: var(--pos); } .status-late, .status-invalid, .status-conflict { color: var(--neg); }
 .status-unavailable { color: var(--muted); }
+@media (max-width: 640px) {
+  .lab td:first-child { white-space: normal; min-width: 9em; }
+  .counts { gap: 14px !important; }
+  .counts span { font-size: 14px; }
+}

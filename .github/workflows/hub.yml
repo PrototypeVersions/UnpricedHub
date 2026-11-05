@@ -33,8 +33,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: hub-records
@@ -66,14 +64,5 @@ jobs:
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
           git commit -q -m "hub: $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do git push -q && exit 0; git pull -q --rebase; done; exit 1
-      - name: Configure Pages
-        id: pages
-        continue-on-error: true
-        uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        if: steps.pages.outcome == 'success'
-        with:
-          path: site
-      - uses: actions/deploy-pages@v4
-        if: steps.pages.outcome == 'success'
-        continue-on-error: true
+      # Publishing is a separate workflow (pages.yml) so a slow GitHub Pages deployment is reported
+      # as a failure there instead of being hidden here.

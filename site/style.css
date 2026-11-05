@@ -1,29 +1,18 @@
 :root {
-  --paper: #EDF0F3;
-  --surface: #F8F9FB;
-  --ink: #18202B;
-  --muted: #5B6675;
-  --rule: #CBD2DA;
-  --band: #0F766E;
-  --band-fill: rgba(15, 118, 110, 0.15);
-  --pos: #1E7A5E;
-  --neg: #A0303F;
-  --warn: #A87C12;
-  --focus: #0F766E;
+  /* One look in every setting: deep navy and brass (chosen 2026-11-05). */
+  --paper: #0E1626;
+  --surface: #16213A;
+  --ink: #E8ECF4;
+  --muted: #9AA6BC;
+  --rule: #26324D;
+  --band: #E0AE55;
+  --band-fill: rgba(224, 174, 85, 0.18);
+  --pos: #5CC79A;
+  --neg: #F0828E;
+  --warn: #E0AE55;
+  --focus: #E0AE55;
   --font: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #10151C; --surface: #161D26; --ink: #E3E8EE; --muted: #93A0B0; --rule: #2A3441;
-    --band: #5EC8BB; --band-fill: rgba(94, 200, 187, 0.18); --pos: #4FC79C; --neg: #F07A88; --warn: #E2B64A;
-    --focus: #5EC8BB; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #10151C; --surface: #161D26; --ink: #E3E8EE; --muted: #93A0B0; --rule: #2A3441;
-  --band: #5EC8BB; --band-fill: rgba(94, 200, 187, 0.18); --pos: #4FC79C; --neg: #F07A88; --warn: #E2B64A;
-  --focus: #5EC8BB; color-scheme: dark;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }

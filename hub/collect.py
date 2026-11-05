@@ -30,18 +30,20 @@ def collect(fetch=None) -> list[dict]:
     targets = [(lab, url) for lab in labs for url in (lab.get("exports") or [lab.get("export")])
                if url and "<" not in url]          # placeholders are not fetched
     for lab, url in targets:
-        at = now()
-        row = {"lab": lab["id"], "url": url, "receivedAt": iso(at)}
+        row = {"lab": lab["id"], "url": url, "requestedAt": iso(now())}
         try:
             resp = fetch(url)
             status = getattr(resp, "status_code", 200)
-            if status != 200:
-                row.update(status="unavailable", httpStatus=status)
-                out.append(row)
-                continue
-            raw = resp.content
+            raw = resp.content if status == 200 else None
         except Exception as exc:  # network trouble is recorded, not fatal
-            row.update(status="unavailable", error=f"{type(exc).__name__}: {exc}"[:200])
+            row.update(receivedAt=iso(now()), status="unavailable", error=f"{type(exc).__name__}: {exc}"[:200])
+            out.append(row)
+            continue
+        # the receipt time is when the bytes were fully in hand, not when the request started
+        at = now()
+        row["receivedAt"] = iso(at)
+        if status != 200:
+            row.update(status="unavailable", httpStatus=status)
             out.append(row)
             continue
         digest = sha256(raw)

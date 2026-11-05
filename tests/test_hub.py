@@ -131,3 +131,16 @@ def test_drawdown_target_follows_entry_then_daily_closes(hub_root):
     # a fall from the entry open to the first close counts too
     rows = [{"date": d, "ticker": "A", "open": 100.0, "close": 96.0} for d in dates]
     assert np.isclose(realized(doc, pd.DataFrame(rows))["A"], 0.04)
+
+
+def test_receipt_time_is_when_the_download_finished(hub_root, monkeypatch):
+    from hub.collect import collect
+    monkeypatch.setenv("HUB_NOW", "2026-11-04T09:29:50-05:00")
+
+    def slow_fetch(url):  # request starts before the open, bytes arrive after it
+        monkeypatch.setenv("HUB_NOW", "2026-11-04T09:30:05-05:00")
+        return Resp(export())
+    row = collect(fetch=slow_fetch)[0]
+    assert row["requestedAt"].startswith("2026-11-04T09:29:50")
+    assert row["receivedAt"].startswith("2026-11-04T09:30:05")
+    assert row["status"] == "late"

@@ -62,7 +62,7 @@ The Hub scores each type only with its own metric. A rank is never turned into a
 
 1. Schema and types; `forecastId` uniqueness; assets unique; values finite or `null`.
 2. `informationCutoff <= issuedAt`, and the NYSE calendar puts `entry.session` after `decisionSession`.
-3. **Timeliness:** the Hub's own receipt time must be before the entry session's 09:30 ET open.
+3. **Timeliness:** the Hub's own receipt time (`receivedAt`, taken when the download has finished, not when the request started; `requestedAt` is kept too) must be before the entry session's 09:30 ET open.
    A file first seen after that is recorded as **late** and is never scored as a live forecast,
    whatever `issuedAt` says.
 4. **Consistency:** `exit.session` is `horizonSessions` NYSE sessions after `entry.session`, and the

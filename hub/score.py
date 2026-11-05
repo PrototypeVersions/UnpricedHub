@@ -68,6 +68,12 @@ def realized(doc: dict, px: pd.DataFrame) -> pd.Series:
             first = np.log(c.loc[ent] / o.loc[ent])
             sq, count = sq + first.pow(2), count + first.notna()
         return sq / count.replace(0, np.nan)
+    if t["quantity"] == "drawdown":
+        # largest peak-to-trough fall, as a fraction of the peak, along the entry price and then every
+        # daily close of the holding window through the exit close
+        path = pd.concat([get[t["entryPrice"]].loc[[ent]], c.loc[ent:ex]], ignore_index=True)
+        dd = (1 - path / path.cummax()).max()
+        return dd.where(path.notna().all())
     return pd.Series(dtype=float)
 
 

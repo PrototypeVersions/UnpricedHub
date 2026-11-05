@@ -110,3 +110,24 @@ def test_variance_target_counts_every_leg(hub_root):
     first = np.log(100 * 1.01 ** 1 / 100.0)
     expected = (first**2 + 4 * np.log(1.01) ** 2) / 5
     assert np.isclose(v, expected)
+
+
+def test_drawdown_target_follows_entry_then_daily_closes(hub_root):
+    from hub.score import realized
+    doc = export(task={"id": "d", "description": "d", "forecastType": "event-probability",
+                       "event": {"operator": ">", "threshold": 0.03},
+                       "target": {"quantity": "drawdown", "entryPrice": "open", "exitPrice": "close",
+                                  "horizonSessions": 4, "relativeTo": "none"}},
+                 exit={"session": "2026-11-10", "price": "close"}, forecasts={"assets": ["A", "B"], "values": {"m1": [0.5, 0.5]}})
+    dates = pd.bdate_range("2026-11-03", "2026-11-12")      # entry 11-04 ... exit 11-10
+    closes_a = {"2026-11-04": 103.0, "2026-11-05": 104.0, "2026-11-06": 99.0, "2026-11-09": 101.0, "2026-11-10": 102.0}
+    rows = []
+    for d in dates:
+        k = d.date().isoformat()
+        rows.append({"date": d, "ticker": "A", "open": 100.0, "close": closes_a.get(k, 100.0)})
+        rows.append({"date": d, "ticker": "B", "open": 100.0, "close": 100.0 - (d.day % 2)})   # never falls 3%
+    v = realized(doc, pd.DataFrame(rows))
+    assert np.isclose(v["A"], 1 - 99.0 / 104.0) and v["B"] < 0.03
+    # a fall from the entry open to the first close counts too
+    rows = [{"date": d, "ticker": "A", "open": 100.0, "close": 96.0} for d in dates]
+    assert np.isclose(realized(doc, pd.DataFrame(rows))["A"], 0.04)

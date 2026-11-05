@@ -16,12 +16,12 @@
       "name": "Unpriced Risk Lab",
       "repo": "PrototypeVersions/UnpricedZ",
       "site": "https://prototypeversions.github.io/UnpricedZ/",
-      "question": "How risky will the market and its sectors be, and does the macro backdrop help tell?",
-      "status": "awaiting-export",
+      "question": "How much will the market and each sector move over the next five sessions, and how likely is a fall of more than 3%?",
+      "status": "active",
       "exports": [
-        "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-<task-id>.json"
-      ],
-      "note": "Replace <task-id> with the Risk Lab's real task ids once its exporter exists; one file per task."
+        "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-variance-5s-open-close.json",
+        "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json"
+      ]
     }
   ]
 }

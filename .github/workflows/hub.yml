@@ -10,6 +10,21 @@ on:
       timezone: 'America/New_York'
     - cron: '40 20 * * 1-5'
       timezone: 'America/New_York'
+    # Overnight collections. GitHub runs schedules late or not at all at busy times (delays of ~7 hours
+    # were seen on Nov 4-5, 2026), and a lab may freeze its forecast any time between the evening and
+    # the open, so the Hub looks often; a run with nothing new commits nothing.
+    - cron: '50 21 * * 1-5'
+      timezone: 'America/New_York'
+    - cron: '50 23 * * 1-5'
+      timezone: 'America/New_York'
+    - cron: '50 1 * * 2-6'
+      timezone: 'America/New_York'
+    - cron: '50 3 * * 2-6'
+      timezone: 'America/New_York'
+    - cron: '50 5 * * 2-6'
+      timezone: 'America/New_York'
+    - cron: '35 7 * * 1-5'
+      timezone: 'America/New_York'
   workflow_dispatch:
     inputs:
       command:

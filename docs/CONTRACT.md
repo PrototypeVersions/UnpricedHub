@@ -44,7 +44,9 @@ Examples: entry at the next open and exit at the open five sessions later is `5`
 (UnpricedX). Entry at the next open and exit at the close of the fifth session of the holding
 window is `4` (UnpricedZ: entry session plus four more). Variance targets average the squared log
 returns of the window's legs: an open-to-close first leg when entry is at the open, then
-close-to-close legs through the exit close.
+close-to-close legs through the exit close. Drawdown targets are the largest peak-to-trough fall,
+as a fraction of the running peak (1 − price / highest price so far), along the entry price and then
+each daily close of the window through the exit close.
 
 ### `task.forecastType`
 

@@ -107,8 +107,8 @@
     const main = document.getElementById("main");
     if (!d) { main.innerHTML = `<p class="empty">The Hub hasn't collected anything yet. Its first collection runs before the next market open.</p>`; return; }
     main.innerHTML = `
-      <h1>A receipt for every forecast</h1>
-      <p class="lede">The Unpriced labs make forecasts about the stock market. The Hub saves its own copy of each one before the market opens, so it can't be changed later, and grades it afterwards with its own price data.</p>
+      <h1>An independent scorekeeper for market forecasts</h1>
+      <p class="lede">A receipt for every forecast. The Hub saves its own copy of each one before the market opens, so it can't be changed later, and grades it afterwards with its own price data.</p>
       <ul class="steps">${d.rules.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
       ${d.labs.map(labPanel).join("")}
       <p class="small muted">Updated ${esc(when(d.updatedAt))}.</p>`;

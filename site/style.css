@@ -20,8 +20,10 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--paper); color: var(--ink);
   font-family: var(--font); font-size: 17px; line-height: 1.55;
-  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-feature-settings: "lnum" 1;
 }
+/* tabular figures only where numbers line up; in body text they widen hyphens */
+table, .facts dd, .kv dd, .counts, .chart text, .waiting-count { font-variant-numeric: tabular-nums; }
 a { color: var(--band); text-underline-offset: 3px; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, th:focus-visible {
   outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px;

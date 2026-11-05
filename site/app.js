@@ -74,7 +74,9 @@
     const recent = all.slice(0, 6);
     const models = lab.models || [];
     const pendingLive = all.filter((r) => r.status === "live" && r.exitSession).map((r) => r.exitSession).sort();
-    const firstDue = pendingLive.length ? pendingLive[0] : null;
+    // the Hub grades a forecast from the calendar day after its exit session, in its evening run
+    const nextDay = (d) => { const t = new Date(`${d}T12:00:00`); t.setDate(t.getDate() + 1); return t.toISOString().slice(0, 10); };
+    const firstDue = pendingLive.length ? nextDay(pendingLive[0]) : null;
     const status = { live: "On time", late: "Late", invalid: "Rejected", conflict: "Changed after receipt" };
     return `<section class="lab">
       <h2>${esc(lab.name)}</h2>
@@ -99,7 +101,7 @@
           <td class="l">${esc(taskLabel({ taskId: m.task, forecastType: { ic: "rank-score", brier: "event-probability", qlike: "variance" }[m.metric] }))}</td>
           <td class="l">${esc(METRIC[m.metric] || m.metric)}</td><td>${m.days}</td><td>${fmt(m.mean, 4)}</td></tr>`).join("")}</tbody></table></div>
         ${models.filter((m) => m.role === "champion" && m.metric === "ic").map((m) => band(m.band)).join("")}` :
-        `<p class="small muted">${firstDue ? `The first grades arrive after ${esc(day(firstDue))}, when the first on-time forecast's five trading days are over.` : "Grades appear once an on-time forecast's five trading days are over."}</p>`}
+        `<p class="small muted">${firstDue ? `The first grades are due on the evening of ${esc(day(firstDue))}, the day after the first on-time forecast's five trading days end.` : "Grades appear once an on-time forecast's five trading days are over."}</p>`}
     </section>`;
   }
 
@@ -113,7 +115,7 @@
       ${d.labs.map(labPanel).join("")}
       <section class="lab">
         <h2>How grading works</h2>
-        <p>The Hub grades a forecast once its five trading days are over, using prices it downloads itself. Only forecasts it received before the open are graded. Each kind of forecast gets the standard measure for that kind of question:</p>
+        <p>The Hub grades a forecast in its evening run on the day after the forecast's five trading days end. It downloads prices itself from Yahoo Finance (the same public source the labs use) and does its own calculation. Only forecasts it received before the open are graded. Each kind of forecast gets the standard measure for that kind of question:</p>
         <dl class="grading">
           <dt>Which stocks will do better than the others</dt>
           <dd>For every stock, the Hub works out the return from the entry open to the open five trading days later. It then measures how well the lab's ranking matched the actual order (a rank correlation). 1 would be a perfect order, 0 is no better than chance, and −1 is exactly backwards. Held over months, 0.02 to 0.05 would be very good.</dd>

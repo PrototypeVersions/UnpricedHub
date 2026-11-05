@@ -12,6 +12,10 @@ on:
     branches: [main]
     paths: ['site/**', '.github/workflows/pages.yml']
   workflow_dispatch:
+    inputs:
+      cancel:
+        description: 'ID of a stuck Pages deployment to cancel first (the error names it)'
+        default: ''
 
 permissions:
   contents: read
@@ -33,6 +37,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - name: Cancel a stuck deployment
+        if: inputs.cancel != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/deployments/${{ inputs.cancel }}/cancel" || true
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

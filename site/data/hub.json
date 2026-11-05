@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-05T03:30:55-05:00",
+ "updatedAt": "2026-11-05T10:42:01-05:00",
  "labs": [
   {
    "id": "stock-lab",
@@ -73,20 +73,64 @@
    "name": "Unpriced Risk Lab",
    "repo": "PrototypeVersions/UnpricedZ",
    "site": "https://prototypeversions.github.io/UnpricedZ/",
-   "question": "How risky will the market and its sectors be, and does the macro backdrop help tell?",
-   "status": "awaiting-export",
+   "question": "How much will the market and each sector move over the next five sessions, and how likely is a fall of more than 3%?",
+   "status": "active",
    "exports": [
-    "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-<task-id>.json"
+    "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-variance-5s-open-close.json",
+    "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json"
    ],
-   "note": "Replace <task-id> with the Risk Lab's real task ids once its exporter exists; one file per task.",
    "receipts": {
     "live": 0,
-    "late": 0,
+    "late": 2,
     "invalid": 0,
     "conflict": 0,
     "unavailable": 0
    },
-   "recent": [],
+   "recent": [
+    {
+     "lab": "risk-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json",
+     "receivedAt": "2026-11-05T10:42:00-05:00",
+     "sha256": "0e96a17fd2f138fb9ace94cf39a40badae7add9865c771633edb793998ee0729",
+     "forecastId": "unpricedz/2026-11-04/risk-v1-drawdown-gt3pct-5s-open-close",
+     "storedAt": "records/exports/risk-lab/unpricedz_2026-11-04_risk-v1-drawdown-gt3pct-5s-open-close.0e96a17fd2f138fb.json",
+     "status": "late",
+     "entryOpen": "2026-11-05T09:30:00-05:00",
+     "issuedAt": "2026-11-05T05:26:42.526728+00:00",
+     "decisionSession": "2026-11-04",
+     "entrySession": "2026-11-05",
+     "exitSession": "2026-11-11",
+     "taskId": "risk-v1-drawdown-gt3pct-5s-open-close",
+     "forecastType": "event-probability",
+     "models": [
+      "base_rate",
+      "volatility_only"
+     ],
+     "assets": 10
+    },
+    {
+     "lab": "risk-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-variance-5s-open-close.json",
+     "receivedAt": "2026-11-05T10:42:00-05:00",
+     "sha256": "219b499efae6b6227bc1e989527de633ebbdeedf8a8fe51235de4272810fa9d7",
+     "forecastId": "unpricedz/2026-11-04/risk-v1-variance-5s-open-close",
+     "storedAt": "records/exports/risk-lab/unpricedz_2026-11-04_risk-v1-variance-5s-open-close.219b499efae6b622.json",
+     "status": "late",
+     "entryOpen": "2026-11-05T09:30:00-05:00",
+     "issuedAt": "2026-11-05T05:26:42.526728+00:00",
+     "decisionSession": "2026-11-04",
+     "entrySession": "2026-11-05",
+     "exitSession": "2026-11-11",
+     "taskId": "risk-v1-variance-5s-open-close",
+     "forecastType": "variance",
+     "models": [
+      "ewma",
+      "har_daily",
+      "garch11"
+     ],
+     "assets": 10
+    }
+   ],
    "models": []
   }
  ],

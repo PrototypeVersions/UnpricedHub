@@ -1,0 +1,119 @@
+{
+  "schema": "unpriced-export/1",
+  "lab": {
+    "id": "unpricedz",
+    "name": "UNPRICED Risk Lab",
+    "repo": "PrototypeVersions/UnpricedZ",
+    "experiment": "risk-1.0.0",
+    "codeCommit": "cbf4c1aa04d4f735561d1fe8b464b3a7d54429e4"
+  },
+  "forecastId": "unpricedz/2026-11-06/risk-v1-drawdown-gt3pct-5s-open-close",
+  "decisionSession": "2026-11-06",
+  "informationCutoff": "2026-11-06T21:00:00+00:00",
+  "issuedAt": "2026-11-07T04:53:39.362274+00:00",
+  "entry": {
+    "session": "2026-11-09",
+    "price": "open"
+  },
+  "exit": {
+    "session": "2026-11-13",
+    "price": "close"
+  },
+  "task": {
+    "id": "risk-v1-drawdown-gt3pct-5s-open-close",
+    "description": "maximum peak-to-trough decline along entry price and five subsequent daily closes",
+    "target": {
+      "quantity": "drawdown",
+      "entryPrice": "open",
+      "exitPrice": "close",
+      "horizonSessions": 4,
+      "relativeTo": "none"
+    },
+    "forecastType": "event-probability",
+    "event": {
+      "operator": ">",
+      "threshold": 0.03
+    }
+  },
+  "universe": {
+    "definition": "SPY plus legacy US sector ETFs XLB, XLE, XLF, XLI, XLK, XLP, XLU, XLV and XLY",
+    "size": 10
+  },
+  "models": [
+    {
+      "id": "base_rate",
+      "role": "baseline",
+      "artifactSha256": "7ec13b0d57a892e60a122b13cc8505ce30e4287a50c4929deece6b3b8d1bb3b1",
+      "trainedThrough": "2026-11-03",
+      "specificationSha256": "3e3cd3ae6f0ccdecfa7c6212a6b4980905e2b51f77d25ceb01ebd77837c3d504"
+    },
+    {
+      "id": "volatility_only",
+      "role": "baseline",
+      "artifactSha256": "7ec13b0d57a892e60a122b13cc8505ce30e4287a50c4929deece6b3b8d1bb3b1",
+      "trainedThrough": "2026-11-03",
+      "specificationSha256": "3e3cd3ae6f0ccdecfa7c6212a6b4980905e2b51f77d25ceb01ebd77837c3d504"
+    }
+  ],
+  "forecasts": {
+    "assets": [
+      "SPY",
+      "XLB",
+      "XLE",
+      "XLF",
+      "XLI",
+      "XLK",
+      "XLP",
+      "XLU",
+      "XLV",
+      "XLY"
+    ],
+    "values": {
+      "base_rate": [
+        0.13523274478330657,
+        0.19221508828250403,
+        0.28852327447833065,
+        0.16332263242375603,
+        0.15208667736757625,
+        0.3109951845906902,
+        0.06942215088282504,
+        0.17134831460674158,
+        0.10473515248796147,
+        0.27648475120385235
+      ],
+      "volatility_only": [
+        0.01448990122118744,
+        0.1775879317689008,
+        0.23301985071064904,
+        0.01539540728995204,
+        0.1403463496332025,
+        0.44486096010724024,
+        0.07116418669544,
+        0.22314796920515434,
+        0.07044313877597046,
+        0.15518474851487077
+      ]
+    }
+  },
+  "abstained": [],
+  "modelAbstentions": [],
+  "provenance": {
+    "snapshotPath": "risk_records/risk-1.0.0/forecasts/2026-11-06.json",
+    "snapshotSha256": "6acc57f34b0a0dc4551af8dce9cf4b29dee9328609910dd092b98931119a23e7",
+    "inputFingerprint": {
+      "prices": "5e1c20c39b5295e38d3bfe5444c83b863d4370002f19f96f28c937b5203a879b",
+      "algorithm": "81814c6d500f450d7bdb70247ceccc57b3b31cc5dfbb6c9071cb024e161dda94"
+    }
+  },
+  "limitations": [
+    "Daily adjusted-price proxy, not intraday realized variance or intraday maximum drawdown.",
+    "Nine retrospectively selected legacy sector funds do not cover every modern sector.",
+    "Risk benchmarks only; no established forecasting edge or trading policy.",
+    "The five-observation holding window has four NYSE session-index intervals under this contract.",
+    "Issue time is when the lab froze the forecast. Hub independently determines whether receipt was timely."
+  ],
+  "entryOpen": "2026-11-09T14:30:00+00:00",
+  "exitClose": "2026-11-13T21:00:00+00:00",
+  "holdingWindowObservations": 5,
+  "contractRevision": "5bdee50d25f57dac6b85630523f9cdfeb0a5352d"
+}

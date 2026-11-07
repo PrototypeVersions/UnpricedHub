@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-06T15:25:11-05:00",
+ "updatedAt": "2026-11-07T02:46:05-05:00",
  "labs": [
   {
    "id": "stock-lab",
@@ -12,13 +12,39 @@
     "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json"
    ],
    "receipts": {
-    "live": 3,
+    "live": 4,
     "late": 0,
     "invalid": 0,
     "conflict": 0,
     "unavailable": 0
    },
    "recent": [
+    {
+     "lab": "stock-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json",
+     "requestedAt": "2026-11-07T02:46:04-05:00",
+     "receivedAt": "2026-11-07T02:46:04-05:00",
+     "sha256": "fb00d877e57d98bc22fdd4ecd2ae52c5ada4f5185923a9e7046e4be6643ecfab",
+     "forecastId": "stock-lab/2026-11-06/stock-rank-5d-open-open",
+     "storedAt": "records/exports/stock-lab/stock-lab_2026-11-06_stock-rank-5d-open-open.fb00d877e57d98bc.json",
+     "status": "live",
+     "entryOpen": "2026-11-09T09:30:00-05:00",
+     "issuedAt": "2026-11-06T19:27:23-05:00",
+     "decisionSession": "2026-11-06",
+     "entrySession": "2026-11-09",
+     "exitSession": "2026-11-16",
+     "taskId": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "models": [
+      "ens_all-c3743f03",
+      "gbm_all-d90c9d52",
+      "gbm_price-271869db",
+      "gbm_all_h21-h5-d90c9d52",
+      "llm_guidance-on-ens_all-c3743f03",
+      "rule_guidance-on-ens_all-c3743f03"
+     ],
+     "assets": 1000
+    },
     {
      "lab": "stock-lab",
      "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedX/main/site/data/export/latest.json",
@@ -107,13 +133,58 @@
    ],
    "note": "Connected to the Hub at 10:41 am ET on Nov 5, 2026, after that day's open, so its first two forecasts arrived late.",
    "receipts": {
-    "live": 2,
+    "live": 4,
     "late": 2,
     "invalid": 0,
     "conflict": 0,
     "unavailable": 0
    },
    "recent": [
+    {
+     "lab": "risk-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json",
+     "requestedAt": "2026-11-07T02:46:05-05:00",
+     "receivedAt": "2026-11-07T02:46:05-05:00",
+     "sha256": "94ead6321162abe409c5f613bcc81e95a58b93a622860533f448c7dc66171db6",
+     "forecastId": "unpricedz/2026-11-06/risk-v1-drawdown-gt3pct-5s-open-close",
+     "storedAt": "records/exports/risk-lab/unpricedz_2026-11-06_risk-v1-drawdown-gt3pct-5s-open-close.94ead6321162abe4.json",
+     "status": "live",
+     "entryOpen": "2026-11-09T09:30:00-05:00",
+     "issuedAt": "2026-11-07T04:53:39.362274+00:00",
+     "decisionSession": "2026-11-06",
+     "entrySession": "2026-11-09",
+     "exitSession": "2026-11-13",
+     "taskId": "risk-v1-drawdown-gt3pct-5s-open-close",
+     "forecastType": "event-probability",
+     "models": [
+      "base_rate",
+      "volatility_only"
+     ],
+     "assets": 10
+    },
+    {
+     "lab": "risk-lab",
+     "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-variance-5s-open-close.json",
+     "requestedAt": "2026-11-07T02:46:04-05:00",
+     "receivedAt": "2026-11-07T02:46:05-05:00",
+     "sha256": "4e42b829e14cd94fe207547e9266c35a7dcd1ef31c2fa290230cd6af157b422f",
+     "forecastId": "unpricedz/2026-11-06/risk-v1-variance-5s-open-close",
+     "storedAt": "records/exports/risk-lab/unpricedz_2026-11-06_risk-v1-variance-5s-open-close.4e42b829e14cd94f.json",
+     "status": "live",
+     "entryOpen": "2026-11-09T09:30:00-05:00",
+     "issuedAt": "2026-11-07T04:53:39.362274+00:00",
+     "decisionSession": "2026-11-06",
+     "entrySession": "2026-11-09",
+     "exitSession": "2026-11-13",
+     "taskId": "risk-v1-variance-5s-open-close",
+     "forecastType": "variance",
+     "models": [
+      "ewma",
+      "har_daily",
+      "garch11"
+     ],
+     "assets": 10
+    },
     {
      "lab": "risk-lab",
      "url": "https://raw.githubusercontent.com/PrototypeVersions/UnpricedZ/main/site/data/export/latest-risk-v1-drawdown-gt3pct-5s-open-close.json",

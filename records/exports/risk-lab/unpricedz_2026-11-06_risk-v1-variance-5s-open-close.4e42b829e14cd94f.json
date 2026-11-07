@@ -1,0 +1,135 @@
+{
+  "schema": "unpriced-export/1",
+  "lab": {
+    "id": "unpricedz",
+    "name": "UNPRICED Risk Lab",
+    "repo": "PrototypeVersions/UnpricedZ",
+    "experiment": "risk-1.0.0",
+    "codeCommit": "cbf4c1aa04d4f735561d1fe8b464b3a7d54429e4"
+  },
+  "forecastId": "unpricedz/2026-11-06/risk-v1-variance-5s-open-close",
+  "decisionSession": "2026-11-06",
+  "informationCutoff": "2026-11-06T21:00:00+00:00",
+  "issuedAt": "2026-11-07T04:53:39.362274+00:00",
+  "entry": {
+    "session": "2026-11-09",
+    "price": "open"
+  },
+  "exit": {
+    "session": "2026-11-13",
+    "price": "close"
+  },
+  "task": {
+    "id": "risk-v1-variance-5s-open-close",
+    "description": "mean of squared log first open-to-close leg and four subsequent close-to-close legs",
+    "target": {
+      "quantity": "realized-variance",
+      "entryPrice": "open",
+      "exitPrice": "close",
+      "horizonSessions": 4,
+      "relativeTo": "none"
+    },
+    "forecastType": "variance",
+    "event": null
+  },
+  "universe": {
+    "definition": "SPY plus legacy US sector ETFs XLB, XLE, XLF, XLI, XLK, XLP, XLU, XLV and XLY",
+    "size": 10
+  },
+  "models": [
+    {
+      "id": "ewma",
+      "role": "baseline",
+      "artifactSha256": null,
+      "trainedThrough": null,
+      "specificationSha256": "3e3cd3ae6f0ccdecfa7c6212a6b4980905e2b51f77d25ceb01ebd77837c3d504"
+    },
+    {
+      "id": "har_daily",
+      "role": "baseline",
+      "artifactSha256": "7ec13b0d57a892e60a122b13cc8505ce30e4287a50c4929deece6b3b8d1bb3b1",
+      "trainedThrough": "2026-11-03",
+      "specificationSha256": "3e3cd3ae6f0ccdecfa7c6212a6b4980905e2b51f77d25ceb01ebd77837c3d504"
+    },
+    {
+      "id": "garch11",
+      "role": "baseline",
+      "artifactSha256": "7ec13b0d57a892e60a122b13cc8505ce30e4287a50c4929deece6b3b8d1bb3b1",
+      "trainedThrough": "2026-11-03",
+      "specificationSha256": "3e3cd3ae6f0ccdecfa7c6212a6b4980905e2b51f77d25ceb01ebd77837c3d504"
+    }
+  ],
+  "forecasts": {
+    "assets": [
+      "SPY",
+      "XLB",
+      "XLE",
+      "XLF",
+      "XLI",
+      "XLK",
+      "XLP",
+      "XLU",
+      "XLV",
+      "XLY"
+    ],
+    "values": {
+      "ewma": [
+        0.00016306047599049499,
+        0.00016317492388792407,
+        0.00037142031998483644,
+        0.00017791546873050196,
+        0.00016707937234833586,
+        0.0006528670149621455,
+        0.00019216405426662343,
+        8.888772141428759e-05,
+        0.00017853544208790284,
+        0.000252764406761426
+      ],
+      "har_daily": [
+        0.00015938683678991521,
+        0.00014146718321871455,
+        0.0002882724585639705,
+        0.00014593358969055526,
+        0.00015130651693370984,
+        0.0006622688747564241,
+        0.00016599743270710667,
+        8.641029162946875e-05,
+        0.00016270515655216996,
+        0.00025815601665752594
+      ],
+      "garch11": [
+        0.0002446998513739962,
+        0.000218430149073039,
+        0.0003592838762061109,
+        0.00025499687208678165,
+        0.00020781710817699786,
+        0.0007856540977718001,
+        0.0001679667981838381,
+        0.00010525236614748406,
+        0.00016468333556952794,
+        0.00029242707928224326
+      ]
+    }
+  },
+  "abstained": [],
+  "modelAbstentions": [],
+  "provenance": {
+    "snapshotPath": "risk_records/risk-1.0.0/forecasts/2026-11-06.json",
+    "snapshotSha256": "6acc57f34b0a0dc4551af8dce9cf4b29dee9328609910dd092b98931119a23e7",
+    "inputFingerprint": {
+      "prices": "5e1c20c39b5295e38d3bfe5444c83b863d4370002f19f96f28c937b5203a879b",
+      "algorithm": "81814c6d500f450d7bdb70247ceccc57b3b31cc5dfbb6c9071cb024e161dda94"
+    }
+  },
+  "limitations": [
+    "Daily adjusted-price proxy, not intraday realized variance or intraday maximum drawdown.",
+    "Nine retrospectively selected legacy sector funds do not cover every modern sector.",
+    "Risk benchmarks only; no established forecasting edge or trading policy.",
+    "The five-observation holding window has four NYSE session-index intervals under this contract.",
+    "Issue time is when the lab froze the forecast. Hub independently determines whether receipt was timely."
+  ],
+  "entryOpen": "2026-11-09T14:30:00+00:00",
+  "exitClose": "2026-11-13T21:00:00+00:00",
+  "holdingWindowObservations": 5,
+  "contractRevision": "5bdee50d25f57dac6b85630523f9cdfeb0a5352d"
+}

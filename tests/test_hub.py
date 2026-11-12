@@ -95,6 +95,10 @@ def test_scoring_rank_ic_from_hub_prices(hub_root, monkeypatch):
     assert score(download=fake_download) == 1
     s = read_jsonl(hub_root / "records" / "scores.jsonl")[0]
     assert s["ic"] > 0.99 and s["n"] == 40
+    o = read_jsonl(hub_root / "records" / "outcomes.jsonl")
+    assert len(o) == 1 and o[0]["forecastId"] == s["forecastId"] and len(o[0]["realized"]) == 40
+    assert o[0]["realized"]["T39"] > o[0]["realized"]["T0"]
+    assert score(download=fake_download) == 0 and len(read_jsonl(hub_root / "records" / "outcomes.jsonl")) == 1
 
 
 def test_variance_target_counts_every_leg(hub_root):

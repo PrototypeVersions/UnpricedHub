@@ -5,6 +5,8 @@ Each forecast type is scored only with its own metric:
   event-probability -> Brier score and log loss
   variance          -> QLIKE
 Results are appended once per (forecastId, model) to records/scores.jsonl with the price vintage used.
+What actually happened to each asset (the realized target) is appended once per forecastId to
+records/outcomes.jsonl, so the public site can show forecasts next to outcomes.
 """
 from __future__ import annotations
 
@@ -100,9 +102,10 @@ def metric(doc: dict, values: pd.Series, outcome: pd.Series) -> dict:
 def score(download=download_prices) -> int:
     receipts = [r for r in read_jsonl(ROOT / "records" / "receipts.jsonl") if r.get("status") == "live"]
     done = {(s["forecastId"], s["model"]) for s in read_jsonl(ROOT / "records" / "scores.jsonl")}
+    seen = {o["forecastId"] for o in read_jsonl(ROOT / "records" / "outcomes.jsonl")}
     today = pd.Timestamp(now().date())
     mature = [r for r in receipts if pd.Timestamp(r["exitSession"]) < today
-              and any((r["forecastId"], m) not in done for m in r.get("models", []))]
+              and (r["forecastId"] not in seen or any((r["forecastId"], m) not in done for m in r.get("models", [])))]
     if not mature:
         return 0
     docs = [(r, read_json(ROOT / r["storedAt"])) for r in mature]
@@ -116,6 +119,15 @@ def score(download=download_prices) -> int:
         y = realized(d, px)
         if y.empty:
             continue
+        if r["forecastId"] not in seen:
+            ys = y.reindex(d["forecasts"]["assets"])
+            append_jsonl(ROOT / "records" / "outcomes.jsonl", {
+                "forecastId": r["forecastId"], "lab": r["lab"], "taskId": d["task"]["id"],
+                "quantity": d["task"]["target"]["quantity"], "entrySession": d["entry"]["session"],
+                "exitSession": d["exit"]["session"],
+                "realized": {a: (None if v != v else float(f"{v:.6g}")) for a, v in ys.items()},
+                "scoredAt": iso(now()), "priceVintage": vintage})
+            seen.add(r["forecastId"])
         for mid, vals in d["forecasts"]["values"].items():
             if (r["forecastId"], mid) in done:
                 continue

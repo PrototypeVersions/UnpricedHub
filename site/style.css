@@ -142,3 +142,27 @@ button.toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper)
 .grading { max-width: 76ch; margin: 14px 0; }
 .grading dt { font-weight: 700; margin-top: 14px; }
 .grading dd { margin: 4px 0 0; }
+
+/* links that open popups instead of leaving the site */
+.linklike { font: inherit; color: var(--band); background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; text-align: left; }
+.linklike:hover { color: var(--ink); }
+td .linklike { white-space: inherit; }
+.foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+
+/* popup */
+dialog#pop { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; overflow: auto;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-radius: 14px; }
+dialog#pop::backdrop { background: rgba(5, 9, 18, 0.72); }
+.pop-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 22px 24px 4px;
+  position: sticky; top: 0; background: var(--surface); }
+.pop-head h2 { margin: 0; font-size: 24px; }
+.pop-close { font: inherit; font-size: 26px; line-height: 1; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 0 4px; }
+.pop-close:hover { color: var(--ink); }
+.pop-body { padding: 8px 24px 22px; }
+.pop-body h3 { margin-top: 22px; }
+.pop-status { font-weight: 700; margin-bottom: 14px; }
+.pop-body .kv { grid-template-columns: minmax(8em, max-content) 1fr; }
+.pop-body code { font-size: 13px; overflow-wrap: anywhere; }
+.hash { color: var(--muted); }
+@media (max-width: 640px) { .pop-body .kv { grid-template-columns: 1fr; gap: 2px; } .pop-body .kv dd { margin-bottom: 8px; } .pop-head, .pop-body { padding-left: 16px; padding-right: 16px; } }

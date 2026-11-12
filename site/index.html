@@ -37,10 +37,15 @@
 </header>
 <main class="wrap" id="main"><p class="empty">Loading…</p></main>
 <footer class="wrap foot">
-  <p>Research and paper forecasts only, not investment advice. Every receipt, saved copy and grade is in the
-  <a href="https://github.com/PrototypeVersions/UnpricedHub">repository</a>, along with the
-  <a href="https://github.com/PrototypeVersions/UnpricedHub/blob/main/docs/CONTRACT.md">format the labs must follow</a>.</p>
+  <p>Research and paper forecasts only, not investment advice.</p>
+  <p class="foot-links"><button type="button" class="linklike" data-pop="about">About the Hub</button>
+  <button type="button" class="linklike" data-pop="format">What every forecast must include</button>
+  <button type="button" class="linklike" data-pop="records">How records are kept</button></p>
 </footer>
+<dialog id="pop" aria-labelledby="pop-title">
+  <div class="pop-head"><h2 id="pop-title"></h2><button type="button" class="pop-close" aria-label="Close">×</button></div>
+  <div class="pop-body"></div>
+</dialog>
 <script src="app.js"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 "use strict";
 (() => {
-  const REPO = "https://github.com/PrototypeVersions/UnpricedHub";
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const isNum = (x) => typeof x === "number" && Number.isFinite(x);
   const fmt = (x, d = 3) => (isNum(x) ? `${x > 0 ? "+" : ""}${x.toFixed(d)}` : "–");
@@ -34,6 +33,8 @@
   function modelLabel(id) {
     if (RISK_MODELS[id]) return RISK_MODELS[id];
     const name = String(id).replace(/-[0-9a-f]{8}$/, "");
+    const g = name.match(/^(llm|rule)_guidance-on-(.+)$/);
+    if (g) return `${modelLabel(g[2])}, adjusted by ${g[1] === "llm" ? "an AI reviewer" : "fixed rules"}`;
     const parts = name.split(/~|-(?=[a-z])/), root = parts[0].split("_");
     if (root[0] === "factor") return `Single signal: ${root.slice(1).join("_")}`;
     const bits = [{ ens: "Blend of models", gbm: "Tree model", ridge: "Linear model" }[root[0]] || root[0]];
@@ -77,11 +78,10 @@
     // the Hub grades a forecast from the calendar day after its exit session, in its evening run
     const nextDay = (d) => { const t = new Date(`${d}T12:00:00`); t.setDate(t.getDate() + 1); return t.toISOString().slice(0, 10); };
     const firstDue = pendingLive.length ? nextDay(pendingLive[0]) : null;
-    const status = { live: "On time", late: "Late", invalid: "Rejected", conflict: "Changed after receipt" };
     return `<section class="lab">
       <h2>${esc(lab.name)}</h2>
       <p class="lede">${esc(lab.question)}</p>
-      <p class="small"><a href="${esc(lab.site)}">Open the lab</a> · <a href="https://github.com/${esc(lab.repo)}">Its code and records</a></p>
+      <p class="small"><a href="${esc(lab.site)}">Visit the ${esc(lab.name.replace(/^Unpriced /, ""))} →</a></p>
       <div class="counts">
         <span><strong>${c.live ?? 0}</strong>on time</span>
         <span><strong>${c.late ?? 0}</strong>late (don't count)</span>
@@ -91,7 +91,7 @@
       ${lab.status === "awaiting-export" && !recent.length ? `<p class="empty">This lab hasn't sent its first forecast yet.</p>` : ""}
       ${recent.length ? `<h3>Latest forecasts received</h3><div class="table-scroll"><table><thead><tr>
         <th class="l">Forecast</th><th class="l">Status</th><th>Made after</th><th>Received</th><th>Market opened</th></tr></thead><tbody>
-        ${recent.map((r) => `<tr><td class="l" title="${esc(r.forecastId || "")}">${r.storedAt ? `<a href="${REPO}/blob/main/${esc(r.storedAt)}">${esc(taskLabel(r))}</a>` : esc(taskLabel(r))}</td>
+        ${recent.map((r) => `<tr><td class="l" title="${esc(r.forecastId || "")}"><button type="button" class="linklike" data-receipt="${receipts.push({ lab: lab.name, r }) - 1}">${esc(taskLabel(r))}</button></td>
           <td class="l status-${esc(r.status)}">${esc(status[r.status] || r.status)}${r.problems ? `: ${esc(r.problems[0])}` : ""}</td>
           <td>${esc(day(r.decisionSession))}</td><td>${esc(when(r.receivedAt))}</td><td>${esc(when(r.entryOpen))}</td></tr>`).join("")}
         </tbody></table></div>` : ""}
@@ -105,8 +105,80 @@
     </section>`;
   }
 
+  // Receipts shown in the popup, filled while the lab panels render.
+  const receipts = [];
+  const status = { live: "On time", late: "Late", invalid: "Rejected", conflict: "Changed after receipt", unavailable: "Not available" };
+  let rules = [];
+
+  const PAGES = {
+    about: () => ["About the Hub", `
+      <p>The Unpriced labs make market forecasts every trading day. Labs that grade their own work can fool themselves, so the Hub keeps score independently.</p>
+      <ul class="steps">${rules.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
+      <p>The Hub runs on its own schedule: it collects each lab's forecast in the evening and again before the market opens, and grades forecasts once their five trading days are over.</p>`],
+    format: () => ["What every forecast must include", `
+      <p>Each lab sends one small file per forecast, in a fixed format. The Hub rejects any file that is missing something or doesn't add up.</p>
+      <dl class="kv">
+        <dt>An ID</dt><dd>Lab, day and question. A lab can never send two different forecasts under the same ID.</dd>
+        <dt>Timing</dt><dd>The last trading day of data it used, the moment it was frozen, and when the position would be entered and exited.</dd>
+        <dt>The question</dt><dd>What is being forecast, in plain words, and which kind of forecast it is: a ranking, a probability or a size of price swings.</dd>
+        <dt>The models</dt><dd>Every model's forecast, marked as the model in charge, a challenger or a simple baseline.</dd>
+        <dt>Gaps</dt><dd>Any stock or fund it chose not to forecast, with the reason.</dd>
+        <dt>Caveats</dt><dd>Limits the reader should know about, in plain language.</dd>
+      </dl>
+      <h3>What the Hub checks</h3>
+      <ul class="steps">
+        <li>The file has every field, and every number is a real number.</li>
+        <li>The forecast was frozen after its data and before the trade it describes.</li>
+        <li>The Hub had its copy before the 9:30 am ET open. If not, it is marked late and never graded.</li>
+        <li>The trading days and prices it names agree with each other.</li>
+        <li>It hasn't changed since the Hub first received it.</li>
+      </ul>`],
+    records: () => ["How records are kept", `
+      <p>When a forecast arrives, the Hub saves its own exact copy along with the time it finished downloading. That time, not the lab's, decides whether the forecast was on time.</p>
+      <p>Each copy gets a fingerprint (a SHA-256 hash): a code that changes completely if even one character of the file changes. If a lab later sends a different file under the same ID, the Hub records it as changed and keeps grading the first one.</p>
+      <p>Receipts and grades are only ever added to. Nothing already recorded is edited or removed.</p>`],
+  };
+
+  function receiptPage(i) {
+    const { lab, r } = receipts[i];
+    const row = (k, v) => (v || v === 0 ? `<dt>${esc(k)}</dt><dd>${v}</dd>` : "");
+    return [taskLabel(r), `
+      <p class="pop-status status-${esc(r.status)}">${esc(status[r.status] || r.status)}${r.problems ? `: ${esc(r.problems.join("; "))}` : ""}</p>
+      <dl class="kv">
+        ${row("Lab", esc(lab))}
+        ${row("Forecast ID", `<code>${esc(r.forecastId)}</code>`)}
+        ${row("Made after", esc(day(r.decisionSession)))}
+        ${row("Frozen by the lab", esc(when(r.issuedAt)))}
+        ${row("Received by the Hub", esc(when(r.receivedAt)))}
+        ${row("Market opened", esc(when(r.entryOpen)))}
+        ${row("Window ends", esc(day(r.exitSession)))}
+        ${row("Stocks or funds", isNum(r.assets) ? r.assets.toLocaleString("en-US") : "")}
+        ${row("Models", r.models ? r.models.map((m) => esc(modelLabel(m))).join("<br>") : "")}
+        ${row("Fingerprint", r.sha256 ? `<code class="hash">${esc(r.sha256)}</code>` : "")}
+      </dl>
+      <p class="small muted">${r.status === "live" ? "Received before the open, so it counts. It is graded the day after its window ends." : r.status === "late" ? "Received after the open. It is kept on record but never graded." : "Kept on record but not graded."}</p>`];
+  }
+
+  const dlg = document.getElementById("pop");
+  function openPop([title, body]) {
+    dlg.querySelector("#pop-title").textContent = title;
+    dlg.querySelector(".pop-body").innerHTML = body;
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+    dlg.querySelector(".pop-close").focus();
+  }
+  const closePop = () => (dlg.close ? dlg.close() : dlg.removeAttribute("open"));
+  dlg.querySelector(".pop-close").addEventListener("click", closePop);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) closePop(); });
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-pop],[data-receipt]");
+    if (!b || dlg.contains(b) && !b.dataset.pop) return;
+    if (b.dataset.receipt) openPop(receiptPage(+b.dataset.receipt));
+    else if (PAGES[b.dataset.pop]) openPop(PAGES[b.dataset.pop]());
+  });
+
   fetch("data/hub.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
     const main = document.getElementById("main");
+    if (d) rules = d.rules || [];
     if (!d) { main.innerHTML = `<p class="empty">The Hub hasn't collected anything yet. Its first collection runs before the next market open.</p>`; return; }
     main.innerHTML = `
       <h1>The independent record of the Unpriced labs</h1>
@@ -124,7 +196,7 @@
           <dt>Chance of a fall of more than 3%</dt>
           <dd>The Hub checks whether, at any close during the window, the price was more than 3% below the highest price reached so far, starting from the entry price (yes or no). It scores the forecast probability with the Brier score: the squared gap between the probability and what happened, averaged. 0 is perfect, and always saying 50% scores 0.25. Lower is better.</dd>
         </dl>
-        <p class="small muted">The exact calculations are in <a href="${REPO}/blob/main/hub/score.py">hub/score.py</a>, and every receipt and grade is saved in the <a href="${REPO}/tree/main/records">records folder</a>.</p>
+        <p class="small muted">Every receipt and grade is kept permanently and never edited. Select any forecast above to see its receipt. <button type="button" class="linklike" data-pop="records">How records are kept</button></p>
       </section>
       <p class="small muted">Updated ${esc(when(d.updatedAt))}.</p>`;
   });

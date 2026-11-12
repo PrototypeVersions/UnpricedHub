@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-11T20:23:08-05:00",
+ "updatedAt": "2026-11-12T03:50:53-05:00",
  "labs": [
   {
    "id": "stock-lab",
@@ -9,14 +9,99 @@
    "status": "active",
    "note": null,
    "receipts": {
-    "live": 6,
+    "live": 7,
     "late": 0,
     "invalid": 0,
     "conflict": 0,
-    "checked": 0
+    "checked": 1
    },
-   "nextResults": "2026-11-12",
-   "models": []
+   "nextResults": "2026-11-13",
+   "models": [
+    {
+     "task": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "model": "ens_all-c3743f03",
+     "role": "champion",
+     "metric": "ic",
+     "days": 1,
+     "mean": -0.00752,
+     "band": {
+      "n": 1,
+      "mean": [
+       -0.00752
+      ],
+      "lower": [
+       -0.68812
+      ],
+      "upper": [
+       0.67308
+      ]
+     }
+    },
+    {
+     "task": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "model": "gbm_all-d90c9d52",
+     "role": "challenger",
+     "metric": "ic",
+     "days": 1,
+     "mean": -0.00887,
+     "band": {
+      "n": 1,
+      "mean": [
+       -0.00887
+      ],
+      "lower": [
+       -0.68947
+      ],
+      "upper": [
+       0.67173
+      ]
+     }
+    },
+    {
+     "task": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "model": "gbm_all_h21-h5-d90c9d52",
+     "role": "challenger",
+     "metric": "ic",
+     "days": 1,
+     "mean": -0.00887,
+     "band": {
+      "n": 1,
+      "mean": [
+       -0.00887
+      ],
+      "lower": [
+       -0.68947
+      ],
+      "upper": [
+       0.67173
+      ]
+     }
+    },
+    {
+     "task": "stock-rank-5d-open-open",
+     "forecastType": "rank-score",
+     "model": "gbm_price-271869db",
+     "role": "challenger",
+     "metric": "ic",
+     "days": 1,
+     "mean": -0.00887,
+     "band": {
+      "n": 1,
+      "mean": [
+       -0.00887
+      ],
+      "lower": [
+       -0.68947
+      ],
+      "upper": [
+       0.67173
+      ]
+     }
+    }
+   ]
   },
   {
    "id": "risk-lab",
@@ -26,7 +111,7 @@
    "status": "active",
    "note": "Connected to the Hub at 10:41 am ET on Nov 5, 2026, after that day's open, so its first two forecasts arrived late.",
    "receipts": {
-    "live": 8,
+    "live": 10,
     "late": 2,
     "invalid": 0,
     "conflict": 0,
@@ -37,6 +122,236 @@
   }
  ],
  "forecasts": [
+  {
+   "forecastId": "unpricedz/2026-11-11/risk-v1-drawdown-gt3pct-5s-open-close",
+   "lab": "risk-lab",
+   "status": "live",
+   "problems": null,
+   "taskId": "risk-v1-drawdown-gt3pct-5s-open-close",
+   "forecastType": "event-probability",
+   "decisionSession": "2026-11-11",
+   "entrySession": "2026-11-12",
+   "exitSession": "2026-11-18",
+   "issuedAt": "2026-11-12T05:59:20.871493+00:00",
+   "receivedAt": "2026-11-12T03:50:19-05:00",
+   "entryOpen": "2026-11-12T09:30:00-05:00",
+   "sha256": "e9c0909ccd4b36d42e4375c8b67c08f9f8d29f03c0ac9af4774731d453834535",
+   "assets": 10,
+   "labName": "Unpriced Risk Lab",
+   "leadMinutes": 339,
+   "kind": "fall",
+   "content": {
+    "assets": [
+     "SPY",
+     "XLB",
+     "XLE",
+     "XLF",
+     "XLI",
+     "XLK",
+     "XLP",
+     "XLU",
+     "XLV",
+     "XLY"
+    ],
+    "threshold": 0.03,
+    "models": [
+     {
+      "id": "base_rate",
+      "role": "baseline"
+     },
+     {
+      "id": "volatility_only",
+      "role": "baseline"
+     }
+    ],
+    "values": {
+     "base_rate": [
+      0.1352,
+      0.1922,
+      0.2885,
+      0.1633,
+      0.1521,
+      0.311,
+      0.0694,
+      0.1713,
+      0.1047,
+      0.2765
+     ],
+     "volatility_only": [
+      0.0144,
+      0.177,
+      0.2326,
+      0.0154,
+      0.1389,
+      0.4459,
+      0.0712,
+      0.2236,
+      0.0694,
+      0.1553
+     ]
+    }
+   },
+   "outcome": null,
+   "limitations": [
+    "Daily adjusted-price proxy, not intraday realized variance or intraday maximum drawdown.",
+    "Nine retrospectively selected legacy sector funds do not cover every modern sector.",
+    "Risk benchmarks only; no established forecasting edge or trading policy.",
+    "The five-observation holding window has four NYSE session-index intervals under this contract.",
+    "Issue time is when the lab froze the forecast. Hub independently determines whether receipt was timely."
+   ],
+   "grades": [],
+   "due": "2026-11-19"
+  },
+  {
+   "forecastId": "unpricedz/2026-11-11/risk-v1-variance-5s-open-close",
+   "lab": "risk-lab",
+   "status": "live",
+   "problems": null,
+   "taskId": "risk-v1-variance-5s-open-close",
+   "forecastType": "variance",
+   "decisionSession": "2026-11-11",
+   "entrySession": "2026-11-12",
+   "exitSession": "2026-11-18",
+   "issuedAt": "2026-11-12T05:59:20.871493+00:00",
+   "receivedAt": "2026-11-12T03:50:18-05:00",
+   "entryOpen": "2026-11-12T09:30:00-05:00",
+   "sha256": "1b286a46874a3587810784a4fd898627121180f58845459ef84483441e183a01",
+   "assets": 10,
+   "labName": "Unpriced Risk Lab",
+   "leadMinutes": 339,
+   "kind": "swing",
+   "content": {
+    "assets": [
+     "SPY",
+     "XLB",
+     "XLE",
+     "XLF",
+     "XLI",
+     "XLK",
+     "XLP",
+     "XLU",
+     "XLV",
+     "XLY"
+    ],
+    "models": [
+     {
+      "id": "ewma",
+      "role": "baseline"
+     },
+     {
+      "id": "har_daily",
+      "role": "baseline"
+     },
+     {
+      "id": "garch11",
+      "role": "baseline"
+     }
+    ],
+    "values": {
+     "ewma": [
+      1.304,
+      1.233,
+      1.828,
+      1.268,
+      1.457,
+      2.577,
+      1.288,
+      0.919,
+      1.289,
+      1.571
+     ],
+     "har_daily": [
+      1.347,
+      1.18,
+      1.723,
+      1.125,
+      1.407,
+      2.691,
+      1.176,
+      0.969,
+      1.204,
+      1.599
+     ],
+     "garch11": [
+      1.454,
+      1.313,
+      1.785,
+      1.314,
+      1.522,
+      2.687,
+      1.213,
+      1.008,
+      1.231,
+      1.648
+     ]
+    }
+   },
+   "outcome": null,
+   "limitations": [
+    "Daily adjusted-price proxy, not intraday realized variance or intraday maximum drawdown.",
+    "Nine retrospectively selected legacy sector funds do not cover every modern sector.",
+    "Risk benchmarks only; no established forecasting edge or trading policy.",
+    "The five-observation holding window has four NYSE session-index intervals under this contract.",
+    "Issue time is when the lab froze the forecast. Hub independently determines whether receipt was timely."
+   ],
+   "grades": [],
+   "due": "2026-11-19"
+  },
+  {
+   "forecastId": "stock-lab/2026-11-11/stock-rank-5d-open-open",
+   "lab": "stock-lab",
+   "status": "live",
+   "problems": null,
+   "taskId": "stock-rank-5d-open-open",
+   "forecastType": "rank-score",
+   "decisionSession": "2026-11-11",
+   "entrySession": "2026-11-12",
+   "exitSession": "2026-11-19",
+   "issuedAt": "2026-11-11T19:22:15-05:00",
+   "receivedAt": "2026-11-12T03:50:18-05:00",
+   "entryOpen": "2026-11-12T09:30:00-05:00",
+   "sha256": "0b052cb4e58d33c3e99f73f828b5d3afd68738d90aa7c2945a280b18ce468da7",
+   "assets": 1000,
+   "labName": "Unpriced Stock Lab",
+   "leadMinutes": 339,
+   "kind": "rank",
+   "content": {
+    "model": "ens_all-c3743f03",
+    "role": "champion",
+    "count": 1000,
+    "top": [
+     "ENS",
+     "STX",
+     "LNTH",
+     "NVDA",
+     "CSCO",
+     "ITGR",
+     "GEV",
+     "DELL",
+     "TXN",
+     "SNDK"
+    ],
+    "bottom": [
+     "CIFR",
+     "OKLO",
+     "RIOT",
+     "KRMN",
+     "MARA",
+     "APLD",
+     "WULF",
+     "CORZ",
+     "JOBY",
+     "IONQ"
+    ]
+   },
+   "outcome": null,
+   "limitations": [
+    "Historical research uses free data that omits delisted companies (survivorship bias); live forecasts are unaffected.",
+    "Information cutoff is the moment the forecast was frozen: SEC filings read before then may be used."
+   ],
+   "grades": [],
+   "due": "2026-11-20"
+  },
   {
    "forecastId": "unpricedz/2026-11-10/risk-v1-drawdown-gt3pct-5s-open-close",
    "lab": "risk-lab",
@@ -1232,13 +1547,86 @@
      "RIOT"
     ]
    },
-   "outcome": null,
+   "outcome": {
+    "top": [
+     -0.05572,
+     0.11918,
+     -0.00079,
+     0.03718,
+     0.05235,
+     0.00534,
+     0.01083,
+     0.00674,
+     -0.07295,
+     -0.00162
+    ],
+    "bottom": [
+     0.13209,
+     0.00086,
+     -0.01074,
+     -0.01319,
+     -0.03701,
+     0.0618,
+     0.1317,
+     0.0035,
+     0.01295,
+     0.19757
+    ],
+    "topAvg": 0.01005,
+    "bottomAvg": 0.04795,
+    "allAvg": -0.00097,
+    "topTenthAvg": -0.00436,
+    "bottomTenthAvg": -0.00019,
+    "tenth": 100,
+    "best": [
+     [
+      "APP",
+      0.57194
+     ],
+     [
+      "U",
+      0.29166
+     ],
+     [
+      "WOLF",
+      0.27904
+     ]
+    ]
+   },
    "limitations": [
     "Historical research uses free data that omits delisted companies (survivorship bias); live forecasts are unaffected.",
     "Information cutoff is set to 17:30 ET of the decision session: SEC filings accepted before then may be used."
    ],
-   "grades": [],
-   "due": "2026-11-12"
+   "grades": [
+    {
+     "model": "ens_all-c3743f03",
+     "role": "champion",
+     "metric": "ic",
+     "value": -0.00752,
+     "n": 999
+    },
+    {
+     "model": "gbm_all-d90c9d52",
+     "role": "challenger",
+     "metric": "ic",
+     "value": -0.00887,
+     "n": 999
+    },
+    {
+     "model": "gbm_price-271869db",
+     "role": "challenger",
+     "metric": "ic",
+     "value": -0.00887,
+     "n": 999
+    },
+    {
+     "model": "gbm_all_h21-h5-d90c9d52",
+     "role": "challenger",
+     "metric": "ic",
+     "value": -0.00887,
+     "n": 999
+    }
+   ]
   }
  ],
  "rules": [

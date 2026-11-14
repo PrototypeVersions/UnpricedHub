@@ -2,29 +2,25 @@ name: Hub
 
 # Morning: collect every lab's latest export before the 09:30 ET open (on-time receipts).
 # Evening: collect again (labs that publish after the close), score matured forecasts, publish.
+# Crons are in UTC: GitHub ignored `timezone:` keys here and ran every schedule as UTC, so the
+# "20:40 ET" collection fired at 15:40 ET, before the close. ET = UTC-5 (EST) or UTC-4 (EDT).
+# Evening and overnight times are set from EST (they move one hour later under EDT, still after
+# 17:30 ET); pre-open times are set from EDT (they move one hour earlier under EST, still before
+# 09:30 ET). tests/test_workflow_schedule.py checks both.
 on:
   schedule:
-    - cron: '45 8 * * 1-5'
-      timezone: 'America/New_York'
-    - cron: '10 9 * * 1-5'
-      timezone: 'America/New_York'
-    - cron: '40 20 * * 1-5'
-      timezone: 'America/New_York'
+    - cron: '35 11 * * 1-5'   # 06:35 EST / 07:35 EDT (pre-open)
+    - cron: '45 12 * * 1-5'   # 07:45 EST / 08:45 EDT (pre-open)
+    - cron: '10 13 * * 1-5'   # 08:10 EST / 09:10 EDT (pre-open, last before the open)
+    - cron: '40 1 * * 2-6'    # 20:40 EST / 21:40 EDT Mon-Fri evening: collect, score, publish
     # Overnight collections. GitHub runs schedules late or not at all at busy times (delays of ~7 hours
     # were seen on Nov 4-5, 2026), and a lab may freeze its forecast any time between the evening and
     # the open, so the Hub looks often; a run with nothing new commits nothing.
-    - cron: '50 21 * * 1-5'
-      timezone: 'America/New_York'
-    - cron: '50 23 * * 1-5'
-      timezone: 'America/New_York'
-    - cron: '50 1 * * 2-6'
-      timezone: 'America/New_York'
-    - cron: '50 3 * * 2-6'
-      timezone: 'America/New_York'
-    - cron: '50 5 * * 2-6'
-      timezone: 'America/New_York'
-    - cron: '35 7 * * 1-5'
-      timezone: 'America/New_York'
+    - cron: '50 2 * * 2-6'    # 21:50 EST / 22:50 EDT Mon-Fri evening
+    - cron: '50 4 * * 2-6'    # 23:50 EST / 00:50 EDT Mon-Fri night
+    - cron: '50 6 * * 2-6'    # 01:50 EST / 02:50 EDT Tue-Sat
+    - cron: '50 8 * * 2-6'    # 03:50 EST / 04:50 EDT Tue-Sat
+    - cron: '50 10 * * 2-6'   # 05:50 EST / 06:50 EDT Tue-Sat
   workflow_dispatch:
     inputs:
       command:
@@ -54,7 +50,7 @@ jobs:
       - name: Run
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then CMD="${{ inputs.command }}";
-          elif [ "${{ github.event.schedule }}" = "40 20 * * 1-5" ]; then CMD=all; else CMD=collect; fi
+          elif [ "${{ github.event.schedule }}" = "40 1 * * 2-6" ]; then CMD=all; else CMD=collect; fi
           python -m hub "$CMD"
       - name: Save records
         run: |

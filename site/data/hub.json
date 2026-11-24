@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-24T17:43:51-05:00",
+ "updatedAt": "2026-11-24T18:15:50-05:00",
  "labs": [
   {
    "id": "stock-lab",
@@ -9,7 +9,7 @@
    "status": "active",
    "note": null,
    "receipts": {
-    "live": 15,
+    "live": 16,
     "late": 0,
     "invalid": 0,
     "conflict": 0,
@@ -261,6 +261,61 @@
   }
  ],
  "forecasts": [
+  {
+   "forecastId": "stock-lab/2026-11-24/stock-rank-5d-open-open",
+   "lab": "stock-lab",
+   "status": "live",
+   "problems": null,
+   "taskId": "stock-rank-5d-open-open",
+   "forecastType": "rank-score",
+   "decisionSession": "2026-11-24",
+   "entrySession": "2026-11-25",
+   "exitSession": "2026-12-03",
+   "issuedAt": "2026-11-24T17:55:28-05:00",
+   "receivedAt": "2026-11-24T18:15:49-05:00",
+   "entryOpen": "2026-11-25T09:30:00-05:00",
+   "sha256": "3981d98e176f191269b83a48c7b45ba291fd388bbcdf612c4d2e3a22bdc12cc3",
+   "assets": 1000,
+   "labName": "Unpriced Stock Lab",
+   "leadMinutes": 914,
+   "kind": "rank",
+   "content": {
+    "model": "ens_all-c3743f03",
+    "role": "champion",
+    "count": 1000,
+    "top": [
+     "STX",
+     "SNDK",
+     "TXN",
+     "DELL",
+     "LNTH",
+     "DY",
+     "PEN",
+     "MU",
+     "HPQ",
+     "GEV"
+    ],
+    "bottom": [
+     "MP",
+     "USAR",
+     "RIOT",
+     "CIFR",
+     "QBTS",
+     "IREN",
+     "RGTI",
+     "APLD",
+     "OKLO",
+     "VKTX"
+    ]
+   },
+   "outcome": null,
+   "limitations": [
+    "Historical research uses free data that omits delisted companies (survivorship bias); live forecasts are unaffected.",
+    "Information cutoff is the moment the forecast was frozen: SEC filings read before then may be used."
+   ],
+   "grades": [],
+   "due": "2026-12-04"
+  },
   {
    "forecastId": "unpricedz/2026-11-23/risk-v1-drawdown-gt3pct-5s-open-close",
    "lab": "risk-lab",

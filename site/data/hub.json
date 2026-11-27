@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-27T14:40:08-05:00",
+ "updatedAt": "2026-11-27T16:36:08-05:00",
  "labs": [
   {
    "id": "stock-lab",
@@ -9,7 +9,7 @@
    "status": "active",
    "note": null,
    "receipts": {
-    "live": 17,
+    "live": 18,
     "late": 0,
     "invalid": 0,
     "conflict": 0,
@@ -273,6 +273,61 @@
   }
  ],
  "forecasts": [
+  {
+   "forecastId": "stock-lab/2026-11-27/stock-rank-5d-open-open",
+   "lab": "stock-lab",
+   "status": "live",
+   "problems": null,
+   "taskId": "stock-rank-5d-open-open",
+   "forecastType": "rank-score",
+   "decisionSession": "2026-11-27",
+   "entrySession": "2026-11-30",
+   "exitSession": "2026-12-07",
+   "issuedAt": "2026-11-27T15:15:54-05:00",
+   "receivedAt": "2026-11-27T16:36:08-05:00",
+   "entryOpen": "2026-11-30T09:30:00-05:00",
+   "sha256": "ce2ea58c27878caea951da29913c00338858fd794056c9afc7cf2174b2b5a9e9",
+   "assets": 1000,
+   "labName": "Unpriced Stock Lab",
+   "leadMinutes": 3893,
+   "kind": "rank",
+   "content": {
+    "model": "ens_all-c3743f03",
+    "role": "champion",
+    "count": 1000,
+    "top": [
+     "LNTH",
+     "VRNS",
+     "PAG",
+     "PEN",
+     "CZR",
+     "MKTX",
+     "MEDP",
+     "SYNA",
+     "AMD",
+     "TXN"
+    ],
+    "bottom": [
+     "APLD",
+     "IREN",
+     "RGTI",
+     "QBTS",
+     "SITM",
+     "IONQ",
+     "MOD",
+     "AAOI",
+     "RIOT",
+     "AEHR"
+    ]
+   },
+   "outcome": null,
+   "limitations": [
+    "Historical research uses free data that omits delisted companies (survivorship bias); live forecasts are unaffected.",
+    "Information cutoff is the moment the forecast was frozen: SEC filings read before then may be used."
+   ],
+   "grades": [],
+   "due": "2026-12-08"
+  },
   {
    "forecastId": "unpricedz/2026-11-25/risk-v1-drawdown-gt3pct-5s-open-close",
    "lab": "risk-lab",
